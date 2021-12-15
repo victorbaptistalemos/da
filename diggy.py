@@ -6,33 +6,57 @@ from os import system
 try:
     system('clear')
     with open("diggy.json") as _:
-        team: dict = load(_)
-    for key in team.keys():
-        l, s, w = team[key]
-        level, score = None, None
-        print(f'Usuário: {key}, Level: {l}, Score: {s}, Warnings: {w}')
-        try:
-            level: int = int(input(f'Digite o level atual de {key}: '))
-        except ValueError:
-            level: int = l
-        try:
-            score: int = int(input(f'Digite o score atual de {key}: '))
-        except ValueError:
-            score: int = s
-        if (level, score) == (l, s):
-            team[key][2] += 1
-        else:
-            team[key] = [level, score, 0]
-        system('clear')
-    w7 = [key for key in team.keys() if team[key][2] >= 7]
+        team: dict = load(_)  # {key: list, key: list, ...}
+        new_team: dict = {}
+    for key in team.keys():  # iterates on each player
+        while True:
+            player: list = team[key]  # [level, score, warning]
+            print(f'Usuário: {key}, Level: {player[0]}, Score: {player[1]}, Warnings: {player[2]}')
+            new_data: list = []
+            for name, value in zip(('level', 'score'), player):  # will cut the last element of player
+                data: None = None
+                while True:
+                    try:
+                        data: int = int(input(f'Digite o {name} atual de {key}: '))
+                        if value > data or data >= value + 500:
+                            raise ValueError
+                        else:
+                            new_data.append(data)
+                            system('clear')
+                            break
+                    except ValueError:
+                        system('clear')
+                        if data is None:
+                            new_data.append(value)
+                            break
+                        else:
+                            print(f'Valor de {data} não compatível com o armazenado em {name} = {value}')
+                            continue
+            try:
+                print('Valores atuais de {}: Level: {}, Score: {}'.format(key, *player))
+                print('Novos valores de {}: Level: {}, Score: {}'.format(key, *new_data))
+                print('\nPressione Enter para confirmar ou Ctrl + C (^C) para alterar.')
+                input()
+                if new_data == player[:2]:
+                    new_data.append(player[2] + 1)
+                else:
+                    new_data.append(0)
+                new_team[key] = new_data
+                system('clear')
+                break
+            except KeyboardInterrupt:
+                system('clear')
+                continue
+    del team, key, player, name, value, data, new_data
+    w7 = [key for key in new_team.keys() if new_team[key][2] >= 7]
     for w in w7:
         delete = input(f'Deletar {w} do time? ')
         if len(delete) == 0 or delete in 'sS':
-            del team[w]
+            del new_team[w]
         else:
             continue
     with open("diggy.json", 'w') as _:
-        dump(team, _, indent=4)
+        dump(new_team, _, indent=4)
 except (EOFError, KeyboardInterrupt):
     pass
 finally:
