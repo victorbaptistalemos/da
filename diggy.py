@@ -11,12 +11,12 @@ try:
     for key in team.keys():  # iterates on each player
         while True:
             player: list = team[key]  # [level, score, warning]
-            print(f'Usuário: {key}, Level: {player[0]}, Score: {player[1]}, Warnings: {player[2]}')
             new_data: list = []
             for name, value in zip(('level', 'score'), player):  # will cut the last element of player
                 data: None = None
                 while True:
                     try:
+                        print(f'Usuário: {key}, Level: {player[0]}, Score: {player[1]}, Warnings: {player[2]}')
                         data: int = int(input(f'Digite o {name} atual de {key}: '))
                         if value > data or data >= value + 500:
                             raise ValueError
@@ -61,4 +61,3 @@ except (EOFError, KeyboardInterrupt):
     pass
 finally:
     system('clear')
-
