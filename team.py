@@ -1,4 +1,5 @@
 from bg_op import sys_clear
+from bg_op import current_path
 from json import dump
 from json import load
 
@@ -27,13 +28,14 @@ class Member:
         self.__score = score
         self.__warning = warning
 
-    def __repr__(self) -> dict:
-        return {self.__name: [self.__level, self.__score, self.__warning]}
+    def __repr__(self) -> str:
+        return f'{self.__name} {self.__level} {self.__score} {self.__warning}'
 
 
 def load_team() -> list[Member]:
     team_json: dict
-    with open("diggy.json") as diggy:
+    _path: str = current_path()
+    with open(f'{_path}diggy.json', 'r') as diggy:
         team_json: dict = load(diggy)
     team_list: list = [Member(key, *value) for key, value in team_json.items()]
     return team_list
@@ -151,8 +153,8 @@ def remove_member(arg: list[Member]) -> None:
 
 
 def write_team(arg: list[Member]) -> None:
-    team: dict = {}
-    for member in arg:
-        team |= member.__repr__()
-    with open('diggy.json', 'w') as diggy:
-        dump(team, diggy, indent=True)
+    arg: list[list] = [member.__repr__().split() for member in arg]
+    arg: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in arg}
+    _path: str = current_path()
+    with open(f'{_path}diggy.json', 'w') as diggy:
+        dump(arg, diggy, indent=True)
