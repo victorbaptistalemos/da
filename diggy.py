@@ -1,6 +1,6 @@
 #! /bin/python3
 
-from bg_op import current_time
+from bg_op import current_date
 from bg_op import manage_backup
 from bg_op import sys_clear
 from team import load_team
@@ -15,7 +15,7 @@ backup: None = None
 try:
     sys_clear()
     team: list[Member] = load_team()
-    backup: str = manage_backup(True, current_time())  # Creates a backup
+    backup: str = manage_backup(True, current_date())  # Creates a backup
     manage_member(team)
     manage_team(team)
     remove_member(team)

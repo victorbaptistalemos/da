@@ -34,8 +34,7 @@ class Member:
 
 def load_team() -> list[Member]:
     team_json: dict
-    _path: str = current_path()
-    with open(f'{_path}diggy.json', 'r') as diggy:
+    with open(f'{current_path()}diggy.json', 'r') as diggy:
         team_json: dict = load(diggy)
     team_list: list = [Member(key, *value) for key, value in team_json.items()]
     return team_list
@@ -165,6 +164,5 @@ def remove_member(arg: list[Member]) -> None:
 def write_team(arg: list[Member]) -> None:
     arg: list[list] = [member.__repr__().split() for member in arg]
     arg: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in arg}
-    _path: str = current_path()
-    with open(f'{_path}diggy.json', 'w') as diggy:
+    with open(f'{current_path()}diggy.json', 'w') as diggy:
         dump(arg, diggy, indent=True)
