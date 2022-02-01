@@ -48,36 +48,46 @@ def list_member(arg: list[Member]) -> None:
 
 
 def add_member(arg: list[Member]) -> [list[Member], UserWarning]:
-    try:
-        list_member(arg)
-        print()
-        name: str = input('Informe o nome do(a) novo(a) participante: ')
-        level: int = int(input('Informe o respectivo level: '))
-        score: int = int(input('Informe o respectivo score: '))
-        index: int = int(input('Informe em que posição deseja adicionar\n'
-                               f'"{len(arg) + 1}" para inserir no final da lista: '))
-        if index == 1:
-            print(
-                f'Você está tentando adicionar: {name} antes de '
-                f'{arg[index -1].get_name()}.'
-            )
-        elif index == len(arg) + 1:
-            print(
-                f'Você está tentando adicionar: {name} depois de '
-                f'{arg[index - 1].get_name()}.'
-            )
-        else:
-            print(
-                f'Você está tentando adicionar: {name} entre '
-                f'{arg[index - 2].get_name()} e '
-                f'{arg[index - 1].get_name()}'
-            )
-        index -= 1
-        input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
-        arg.insert(index, Member(name, level, score, 0))
-        return arg
-    except (EOFError, KeyboardInterrupt, ValueError):
-        return UserWarning
+    while True:
+        try:
+            list_member(arg)
+            print()
+            name: str = input('Informe o nome do(a) novo(a) participante: ')
+            level: int = int(input('Informe o respectivo level: '))
+            score: int = int(input('Informe o respectivo score: '))
+            index: int = int(input('Informe em que posição deseja adicionar\n'
+                                   f'"{len(arg) + 1}" para inserir no final da lista: '))
+            if index == 1:
+                print(
+                    f'Você está tentando adicionar: {name} antes de '
+                    f'{arg[index -1].get_name()}.'
+                )
+            elif index == len(arg) + 1:
+                print(
+                    f'Você está tentando adicionar: {name} depois de '
+                    f'{arg[index - 1].get_name()}.'
+                )
+            else:
+                print(
+                    f'Você está tentando adicionar: {name} entre '
+                    f'{arg[index - 2].get_name()} e '
+                    f'{arg[index - 1].get_name()}'
+                )
+            index -= 1
+            input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
+            arg.insert(index, Member(name, level, score, 0))
+            return arg
+        except (EOFError, KeyboardInterrupt, ValueError):
+            try:
+                sys_clear()
+                input(
+                    'Ocorreu um erro ao processar os dados\n'
+                    'Pressione Enter para tentar novamente ou\n'
+                    'Pressione Ctrl + C (^C) para atualizar os membros do grupo.'
+                )
+                sys_clear()
+            except (EOFError, KeyboardInterrupt):
+                return UserWarning
 
 
 def manage_member(arg: list[Member]) -> list[Member]:
