@@ -1,7 +1,7 @@
 from bg_op import sys_clear
 from bg_op import current_path
-from json import dump
-from json import load
+from json import dump as json_dump
+from json import load as json_load
 
 
 class Member:
@@ -32,21 +32,7 @@ class Member:
         return f'{self.__name} {self.__level} {self.__score} {self.__warning}'
 
 
-def load_team() -> list[Member]:
-    team_json: dict
-    with open(f'{current_path()}diggy.json', 'r') as diggy:
-        team_json: dict = load(diggy)
-    team_list: list = [Member(key, *value) for key, value in team_json.items()]
-    return team_list
-
-
-def list_member(arg: list[Member]) -> None:
-    print('Esta é a lista de participantes:')
-    for _, member in enumerate(arg, start=1):
-        print(f'{_}: {member.get_name()}')
-
-
-def add_member(arg: list[Member]) -> [list[Member], UserWarning]:
+def add_member(arg: list[Member]) -> list[Member]:
     while True:
         try:
             list_member(arg)
@@ -86,20 +72,37 @@ def add_member(arg: list[Member]) -> [list[Member], UserWarning]:
                 )
                 sys_clear()
             except (EOFError, KeyboardInterrupt):
-                return UserWarning
+                return arg
+
+
+def list_member(arg: list[Member]) -> None:
+    print('Esta é a lista de participantes:')
+    for _, member in enumerate(arg, start=1):
+        print(f'{_}: {member.get_name()}')
+
+
+def load_team() -> list[Member]:
+    team_json: dict
+    with open(f'{current_path()}diggy.json', 'r') as diggy:
+        team_json: dict = json_load(diggy)
+    team_list: list = [Member(key, *value) for key, value in team_json.items()]
+    return team_list
 
 
 def manage_member(arg: list[Member]) -> list[Member]:
-    try:
-        if len(arg) < 30:
-            member: str = input('Time incompleto. Deseja adicionar novo(a) participante [s/N]? ')
-            if member.upper() == 'S':
-                add_member(arg)
-            else:
-                raise UserWarning
-            sys_clear()
-    except (EOFError, KeyboardInterrupt, UserWarning):
-        return arg
+    while True:
+        try:
+            if len(arg) < 30:
+                member: str = input('Time incompleto. Deseja adicionar novo(a) participante [s/N]? ')
+                if member.upper() == 'S':
+                    arg: list[Member] = add_member(arg)
+                else:
+                    raise UserWarning
+                sys_clear()
+            raise UserWarning
+        except (EOFError, KeyboardInterrupt, UserWarning):
+            break
+    return arg
 
 
 def manage_team(arg: list[Member]) -> None:
@@ -165,4 +168,4 @@ def write_team(arg: list[Member]) -> None:
     arg: list[list] = [member.__repr__().split() for member in arg]
     arg: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in arg}
     with open(f'{current_path()}diggy.json', 'w') as diggy:
-        dump(arg, diggy, indent=True)
+        json_dump(arg, diggy, indent=True)
