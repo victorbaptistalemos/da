@@ -161,43 +161,45 @@ def adding_member(arg: Team) -> None:
                 break
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def remove_member(arg: list[TeamMember]) -> None:
-    members_name: list = [member.get_name() for member in arg]
-    warned_member: list = [member.get_name() for member in arg if member.get_warning() >= 7]
+# 7th call
+def remove_member(arg: Team) -> None:
+    members_name: list = [member.get_name() for member in arg.get_team()]
+    warned_member: list = [member.get_name() for member in arg.get_team() if member.get_warning() >= 10]
     for member in warned_member:
-        delete = input(f'Deletar {member} do grupo? ')
-        if delete.upper() == 'S':
+        removing = input(f'Deletar {member} do grupo? ')
+        if not removing.isalnum() or removing.upper() == 'S':
             index: int = members_name.index(member)
             members_name.pop(index)
-            arg.pop(index)
+            arg.remove_member(arg.get_team()[index])
         else:
             continue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def write_team(arg: list[TeamMember]) -> None:
