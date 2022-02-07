@@ -25,56 +25,14 @@ def load_team() -> Team:
     return team
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def entering_member(arg: list[TeamMember]) -> list[TeamMember]:
-    while True:
-        try:
-            if len(arg) < 30:
-                sys_clear()
-                print(f'Time incompleto.\nO time tem {len(arg)}/30 participantes.')
-                _: str = input('Deseja adicionar novo(a) participante [s/N]? ')
-                if not _.isalnum() or _.upper() == 'S':
-                    arg: list[TeamMember] = adding_member(arg)
-                else:
-                    raise UserWarning
-            raise UserWarning
-        except (EOFError, KeyboardInterrupt, UserWarning):
-            break
-    return arg
-
-
-def list_member(arg: list[TeamMember]) -> None:
-    print('Esta é a lista de participantes:')
-    for _, member in enumerate(arg, start=1):
-        print(f'{_}: {member.get_name()}')
-
-
-
-
-def manage_team(arg: list[TeamMember]) -> list[TeamMember]:
-    arg: list[TeamMember] = quitting_member(arg)
-    arg: list[TeamMember] = entering_member(arg)
-    for _, member in enumerate(arg):
+# 2nd call
+def manage_team(arg: Team) -> None:
+    sys_clear()
+    quitting_member(arg)  # If someone leaves the team, here's the function to remove him.
+    sys_clear()
+    entering_member(arg)  # If the team is not full it'll attempt to add someone.
+    sys_clear()
+    for _, member in enumerate(arg.get_team()):
         while True:
             player_name: str = member.get_name()
             player_data: list[int] = [member.get_level(), member.get_score(), member.get_warning()]
@@ -119,16 +77,57 @@ def manage_team(arg: list[TeamMember]) -> list[TeamMember]:
                 continue
 
 
-def adding_member(arg: list[TeamMember]):
+# 3rd call from 2nd
+def quitting_member(arg: Team) -> None:
+    while True:
+        try:
+            sys_clear()
+            print('Há alguém do grupo que saiu? ')
+            input('Pressione Enter para confirmar ou Ctrl + c (^C) para continuar o script. ')
+            list_member(arg)
+        except (EOFError, KeyboardInterrupt):
+            break
+
+
+# 4th call from 3rd
+def list_member(arg: Team) -> None:
+    sys_clear()
+    print('Esta é a lista de participantes:')
+    for _, member in enumerate(arg.get_team(), start=1):
+        print(f'{_}: {member.get_name()}')
+
+
+# 5th call from 2nd
+def entering_member(arg: Team) -> None:
+    while True:
+        try:
+            if len(opt := arg.get_team()) < 30:
+                sys_clear()
+                print(f'Time incompleto.\nO time tem {len(opt)}/30 participantes.')
+                print('Pressione Ctrl + C (^C) para continuar o script')
+                _: str = input('Deseja adicionar novo(a) participante [s/N]? ')
+                if not _.isalnum() or _.upper() == 'S':
+                    adding_member(arg)
+                else:
+                    raise UserWarning
+            else:
+                raise UserWarning
+        except (EOFError, KeyboardInterrupt, UserWarning):
+            break
+
+
+# 6th call from 5th
+def adding_member(arg: Team) -> None:
     while True:
         try:
             list_member(arg)
+            opt: int = len(arg.get_team())
             print()
             name: str = input('Informe o nome do(a) novo(a) participante: ')
             level: int = int(input('Informe o respectivo level: '))
             score: int = int(input('Informe o respectivo score: '))
             index: int = int(input('Informe em que posição deseja adicionar\n'
-                                   f'"{len(arg) + 1}" para inserir no final da lista: '))
+                                   f'"{opt + 1}" para inserir no final da lista: '))
             if index == 1:
                 print(
                     f'Você está tentando adicionar: {name} antes de '
@@ -163,8 +162,27 @@ def adding_member(arg: list[TeamMember]):
 
 
 
-def quitting_member(arg: list[TeamMember]) -> list[TeamMember]:
-    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
