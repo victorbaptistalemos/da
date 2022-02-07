@@ -49,7 +49,7 @@ def is_win() -> bool:
     return name == 'nt'
 
 
-def manage_backup(create_bkp: bool, bkp_name: str) -> [str, None]:
+def manage_backup(create_bkp: bool = True, bkp_name: str = current_date()) -> [str, None]:
     """
     Creates or deletes a backup file.
     :param create_bkp: bool
