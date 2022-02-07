@@ -119,3 +119,13 @@ class Team:
             return True
         except ValueError:
             return False
+
+    def set_member(self, index: int, level: int, score: int, warning: int) -> bool:
+        try:
+            if level is not int or score is not int or warning is not int:
+                raise UserWarning
+            else:
+                self.__team[index].update_values(level, score, warning)
+                return True
+        except (IndexError, UserWarning):
+            return False
