@@ -69,7 +69,7 @@ def manage_team(arg: Team) -> None:
                     new_player_data.append(player_data[2] + 1)
                 else:
                     new_player_data.append(0)
-                arg[_].update_values(*new_player_data)
+                arg.set_member(_, *new_player_data)
                 sys_clear()
                 break
             except (EOFError, KeyboardInterrupt):
@@ -175,35 +175,13 @@ def remove_member(arg: Team) -> None:
             continue
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def write_team(arg: list[TeamMember]) -> None:
-    arg: list[list] = [member.__repr__().split() for member in arg]
+# 8th call
+def write_team(arg: Team) -> None:
+    from json import dump
+    arg: list[TeamMember] = arg.get_team()
+    arg: list[list] = [
+        [member.get_name(), member.get_level(), member.get_score(), member.get_warning()] for member in arg
+    ]
     arg: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in arg}
     with open(f'{current_path()}diggy.json', 'w') as diggy:
-        json_dump(arg, diggy, indent=True)
+        dump(arg, diggy, indent=True, ensure_ascii=False)
