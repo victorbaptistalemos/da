@@ -9,6 +9,11 @@ from team import TeamMember
 
 
 def adding_member(arg: Team) -> None:
+    """
+    Tries tp add a TeamMember on Team
+    :param arg: Team
+    :return: None
+    """
     while True:
         try:
             list_member(arg)
@@ -53,6 +58,11 @@ def adding_member(arg: Team) -> None:
 
 
 def entering_member(arg: Team) -> None:
+    """
+    Verifies if the Team has 30 TeamMember on its attribute.
+    :param arg: Team
+    :return: none
+    """
     while True:
         try:
             if len(opt := arg.get_team()) < 30:
@@ -74,6 +84,11 @@ def entering_member(arg: Team) -> None:
 
 
 def list_member(arg: Team) -> None:
+    """
+    Prints the current TeamMember name list
+    :param arg: Team
+    :return: none
+    """
     sys_clear()
     print('Esta é a lista de participantes:')
     for _, member in enumerate(arg.get_team(), start=1):
@@ -81,6 +96,10 @@ def list_member(arg: Team) -> None:
 
 
 def load_team() -> Team:
+    """
+    Grabs the info from a JSON file and turns it into a Team object.
+    :return: Team
+    """
     from json import load
     team: dict = {}
     sys_clear()
@@ -95,6 +114,11 @@ def load_team() -> Team:
 
 
 def manage_team(arg: Team) -> None:
+    """
+    Iterates on each TeamMember object and update its values.
+    :param arg: Team
+    :return: None
+    """
     sys_clear()
     quitting_member(arg)  # If someone leaves the team, here's the function to remove him.
     sys_clear()
@@ -146,6 +170,11 @@ def manage_team(arg: Team) -> None:
 
 
 def quitting_member(arg: Team) -> None:
+    """
+    Removes a TeamMember from Team.
+    :param arg: Team
+    :return: None
+    """
     while True:
         try:
             sys_clear()
@@ -162,6 +191,11 @@ def quitting_member(arg: Team) -> None:
 
 
 def remove_member(arg: Team) -> None:
+    """
+    TeamMember which matches a specific condition will be removed from Team.
+    :param arg: Team
+    :return: None
+    """
     members_name: list = [member.get_name() for member in arg.get_team()]
     warned_member: list = [member.get_name() for member in arg.get_team() if member.get_warning() >= 10]
     for member in warned_member:
@@ -175,10 +209,20 @@ def remove_member(arg: Team) -> None:
 
 
 def write_team(arg: Team) -> None:
+    """
+    Writes the updated Team into a JSON file.
+    :param arg: Team
+    :return: None
+    """
     from json import dump
     arg: list[TeamMember] = arg.get_team()
     arg: list[list] = [
-        [member.get_name(), member.get_level(), member.get_score(), member.get_warning()] for member in arg
+        [
+            member.get_name(),
+            member.get_level(),
+            member.get_score(),
+            member.get_warning()
+         ] for member in arg
     ]
     arg: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in arg}
     with open(f'{current_path()}diggy.json', 'w') as diggy:
