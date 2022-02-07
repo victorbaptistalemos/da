@@ -13,7 +13,7 @@ from team import TeamMember
 # 1st call
 def load_team() -> Team:
     from json import load
-    team: dict
+    team: dict = {}
     sys_clear()
     try:
         with open(f'{current_path()}diggy.json', 'r') as diggy:
@@ -85,7 +85,12 @@ def quitting_member(arg: Team) -> None:
             print('Há alguém do grupo que saiu? ')
             input('Pressione Enter para confirmar ou Ctrl + c (^C) para continuar o script. ')
             list_member(arg)
-        except (EOFError, KeyboardInterrupt):
+            opt: int = int(input('Digite o índice que deseja excluir: ')) - 1
+            print(f'{arg.get_team()[opt].get_name()} realmente saiu do grupo? ')
+            confirming: str = input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
+            if not confirming.isalnum() or confirming.upper() == 'S':
+                arg.remove_member(arg.get_team()[opt])
+        except (EOFError, IndexError, KeyboardInterrupt, ValueError):
             break
 
 
@@ -107,7 +112,10 @@ def entering_member(arg: Team) -> None:
                 print('Pressione Ctrl + C (^C) para continuar o script')
                 _: str = input('Deseja adicionar novo(a) participante [s/N]? ')
                 if not _.isalnum() or _.upper() == 'S':
-                    adding_member(arg)
+                    if adding_member(arg):
+                        raise UserWarning
+                    else:
+                        print('Ocorreu algum erro, tente novamente!')
                 else:
                     raise UserWarning
             else:
@@ -136,7 +144,7 @@ def adding_member(arg: Team) -> None:
             elif index == len(opt) + 1:
                 print(
                     f'Você está tentando adicionar: {name} depois de '
-                    f'{opt[index - 1].get_name()}.'
+                    f'{opt[index - 2].get_name()}.'
                 )
             else:
                 print(
