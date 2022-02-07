@@ -65,6 +65,7 @@ def manage_backup(create_bkp: bool = True, bkp_name: str = current_date()) -> [s
     else:
         command: str = 'remove' if is_win() else 'rm'
         console(f'{command} {bkp_name}')
+        sys_clear()
 
 
 def sys_clear() -> None:
