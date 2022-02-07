@@ -97,7 +97,7 @@ class Team:
         :return: bool
         """
         try:
-            if arg is not TeamMember:
+            if arg.__class__ is not TeamMember:
                 raise UserWarning
             elif index is None:
                 self.__team.append(arg)
