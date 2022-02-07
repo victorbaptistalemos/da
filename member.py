@@ -1,5 +1,49 @@
+"""
+Module to operate on Team and TeamMember objects.
+"""
+# First I'll write the functions by diggy.py module calling.
+
+
+from bg_op import current_path
+from bg_op import sys_clear
 from team import Team
 from team import TeamMember
+
+
+# 1st call
+def load_team() -> Team:
+    from json import load
+    team: dict
+    sys_clear()
+    try:
+        with open(f'{current_path()}diggy.json', 'r') as diggy:
+            team: dict = load(diggy)
+    except FileNotFoundError:
+        pass  # There's nothing to do. Will create a team from scratch.
+    team: list[TeamMember] = [TeamMember(key, *value) for key, value in team.items()]
+    team: Team = Team(team)
+    return team
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def entering_member(arg: list[TeamMember]) -> list[TeamMember]:
@@ -25,12 +69,6 @@ def list_member(arg: list[TeamMember]) -> None:
         print(f'{_}: {member.get_name()}')
 
 
-def load_team() -> list[TeamMember]:
-    team_json: dict
-    with open(f'{current_path()}diggy.json', 'r') as diggy:
-        team_json: dict = json_load(diggy)
-    team_list: list = [TeamMember(key, *value) for key, value in team_json.items()]
-    return team_list
 
 
 def manage_team(arg: list[TeamMember]) -> list[TeamMember]:
