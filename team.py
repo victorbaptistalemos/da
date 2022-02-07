@@ -73,11 +73,15 @@ class Team:
     """
     All team members should be inside here.
     """
-    def __init__(self):
+    def __init__(self, team: [list[TeamMember], None] = None):
         """
         Creates an empty list waiting for each TeamMember object to be inserted.
         """
-        self.__team: list[TeamMember] = []
+        self.__team: list[TeamMember]
+        if list is None:
+            self.__team = []
+        else:
+            self.__team = team
 
     def get_team(self) -> list[TeamMember]:
         """
