@@ -121,33 +121,33 @@ def adding_member(arg: Team) -> None:
     while True:
         try:
             list_member(arg)
-            opt: int = len(arg.get_team())
+            opt: list[TeamMember] = arg.get_team()
             print()
             name: str = input('Informe o nome do(a) novo(a) participante: ')
             level: int = int(input('Informe o respectivo level: '))
             score: int = int(input('Informe o respectivo score: '))
             index: int = int(input('Informe em que posição deseja adicionar\n'
-                                   f'"{opt + 1}" para inserir no final da lista: '))
+                                   f'"{len(opt) + 1}" para inserir no final da lista: '))
             if index == 1:
                 print(
                     f'Você está tentando adicionar: {name} antes de '
-                    f'{arg[index -1].get_name()}.'
+                    f'{opt[index -1].get_name()}.'
                 )
-            elif index == len(arg) + 1:
+            elif index == len(opt) + 1:
                 print(
                     f'Você está tentando adicionar: {name} depois de '
-                    f'{arg[index - 1].get_name()}.'
+                    f'{opt[index - 1].get_name()}.'
                 )
             else:
                 print(
                     f'Você está tentando adicionar: {name} entre '
-                    f'{arg[index - 2].get_name()} e '
-                    f'{arg[index - 1].get_name()}'
+                    f'{opt[index - 2].get_name()} e '
+                    f'{opt[index - 1].get_name()}'
                 )
             index -= 1
             input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
-            arg.insert(index, TeamMember(name, level, score, 0))
-            return arg
+            arg.add_member(TeamMember(name, level, score, 0), index)
+            break
         except (EOFError, KeyboardInterrupt, ValueError):
             try:
                 sys_clear()
@@ -158,7 +158,7 @@ def adding_member(arg: Team) -> None:
                 )
                 sys_clear()
             except (EOFError, KeyboardInterrupt):
-                return arg
+                break
 
 
 
