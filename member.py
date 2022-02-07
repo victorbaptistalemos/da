@@ -1,8 +1,6 @@
 """
 Module to operate on Team and TeamMember objects.
 """
-# First I'll write the functions by diggy.py module calling.
-
 
 from bg_op import current_path
 from bg_op import sys_clear
@@ -10,7 +8,78 @@ from team import Team
 from team import TeamMember
 
 
-# 1st call
+def adding_member(arg: Team) -> None:
+    while True:
+        try:
+            list_member(arg)
+            opt: list[TeamMember] = arg.get_team()
+            print()
+            name: str = input('Informe o nome do(a) novo(a) participante: ')
+            level: int = int(input('Informe o respectivo level: '))
+            score: int = int(input('Informe o respectivo score: '))
+            index: int = int(input('Informe em que posição deseja adicionar\n'
+                                   f'"{len(opt) + 1}" para inserir no final da lista: '))
+            if index == 1:
+                print(
+                    f'Você está tentando adicionar: {name} antes de '
+                    f'{opt[index -1].get_name()}.'
+                )
+            elif index == len(opt) + 1:
+                print(
+                    f'Você está tentando adicionar: {name} depois de '
+                    f'{opt[index - 2].get_name()}.'
+                )
+            else:
+                print(
+                    f'Você está tentando adicionar: {name} entre '
+                    f'{opt[index - 2].get_name()} e '
+                    f'{opt[index - 1].get_name()}'
+                )
+            index -= 1
+            input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
+            arg.add_member(TeamMember(name, level, score, 0), index)
+            break
+        except (EOFError, KeyboardInterrupt, ValueError):
+            try:
+                sys_clear()
+                input(
+                    'Ocorreu um erro ao processar os dados\n'
+                    'Pressione Enter para tentar novamente ou\n'
+                    'Pressione Ctrl + C (^C) para atualizar os membros do grupo.'
+                )
+                sys_clear()
+            except (EOFError, KeyboardInterrupt):
+                break
+
+
+def entering_member(arg: Team) -> None:
+    while True:
+        try:
+            if len(opt := arg.get_team()) < 30:
+                sys_clear()
+                print(f'Time incompleto.\nO time tem {len(opt)}/30 participantes.')
+                print('Pressione Ctrl + C (^C) para continuar o script')
+                _: str = input('Deseja adicionar novo(a) participante [s/N]? ')
+                if not _.isalnum() or _.upper() == 'S':
+                    if adding_member(arg):
+                        raise UserWarning
+                    else:
+                        print('Ocorreu algum erro, tente novamente!')
+                else:
+                    raise UserWarning
+            else:
+                raise UserWarning
+        except (EOFError, KeyboardInterrupt, UserWarning):
+            break
+
+
+def list_member(arg: Team) -> None:
+    sys_clear()
+    print('Esta é a lista de participantes:')
+    for _, member in enumerate(arg.get_team(), start=1):
+        print(f'{_}: {member.get_name()}')
+
+
 def load_team() -> Team:
     from json import load
     team: dict = {}
@@ -25,7 +94,6 @@ def load_team() -> Team:
     return team
 
 
-# 2nd call
 def manage_team(arg: Team) -> None:
     sys_clear()
     quitting_member(arg)  # If someone leaves the team, here's the function to remove him.
@@ -77,7 +145,6 @@ def manage_team(arg: Team) -> None:
                 continue
 
 
-# 3rd call from 2nd
 def quitting_member(arg: Team) -> None:
     while True:
         try:
@@ -94,82 +161,6 @@ def quitting_member(arg: Team) -> None:
             break
 
 
-# 4th call from 3rd
-def list_member(arg: Team) -> None:
-    sys_clear()
-    print('Esta é a lista de participantes:')
-    for _, member in enumerate(arg.get_team(), start=1):
-        print(f'{_}: {member.get_name()}')
-
-
-# 5th call from 2nd
-def entering_member(arg: Team) -> None:
-    while True:
-        try:
-            if len(opt := arg.get_team()) < 30:
-                sys_clear()
-                print(f'Time incompleto.\nO time tem {len(opt)}/30 participantes.')
-                print('Pressione Ctrl + C (^C) para continuar o script')
-                _: str = input('Deseja adicionar novo(a) participante [s/N]? ')
-                if not _.isalnum() or _.upper() == 'S':
-                    if adding_member(arg):
-                        raise UserWarning
-                    else:
-                        print('Ocorreu algum erro, tente novamente!')
-                else:
-                    raise UserWarning
-            else:
-                raise UserWarning
-        except (EOFError, KeyboardInterrupt, UserWarning):
-            break
-
-
-# 6th call from 5th
-def adding_member(arg: Team) -> None:
-    while True:
-        try:
-            list_member(arg)
-            opt: list[TeamMember] = arg.get_team()
-            print()
-            name: str = input('Informe o nome do(a) novo(a) participante: ')
-            level: int = int(input('Informe o respectivo level: '))
-            score: int = int(input('Informe o respectivo score: '))
-            index: int = int(input('Informe em que posição deseja adicionar\n'
-                                   f'"{len(opt) + 1}" para inserir no final da lista: '))
-            if index == 1:
-                print(
-                    f'Você está tentando adicionar: {name} antes de '
-                    f'{opt[index -1].get_name()}.'
-                )
-            elif index == len(opt) + 1:
-                print(
-                    f'Você está tentando adicionar: {name} depois de '
-                    f'{opt[index - 2].get_name()}.'
-                )
-            else:
-                print(
-                    f'Você está tentando adicionar: {name} entre '
-                    f'{opt[index - 2].get_name()} e '
-                    f'{opt[index - 1].get_name()}'
-                )
-            index -= 1
-            input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
-            arg.add_member(TeamMember(name, level, score, 0), index)
-            break
-        except (EOFError, KeyboardInterrupt, ValueError):
-            try:
-                sys_clear()
-                input(
-                    'Ocorreu um erro ao processar os dados\n'
-                    'Pressione Enter para tentar novamente ou\n'
-                    'Pressione Ctrl + C (^C) para atualizar os membros do grupo.'
-                )
-                sys_clear()
-            except (EOFError, KeyboardInterrupt):
-                break
-
-
-# 7th call
 def remove_member(arg: Team) -> None:
     members_name: list = [member.get_name() for member in arg.get_team()]
     warned_member: list = [member.get_name() for member in arg.get_team() if member.get_warning() >= 10]
@@ -183,7 +174,6 @@ def remove_member(arg: Team) -> None:
             continue
 
 
-# 8th call
 def write_team(arg: Team) -> None:
     from json import dump
     arg: list[TeamMember] = arg.get_team()
