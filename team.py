@@ -48,7 +48,7 @@ class TeamMember:
         """
         return self.__warning
 
-    def update_values(self, level: int, score: int, warning: int) -> None:
+    def update_values(self, level: int, score: int, warning: int) -> bool:
         """
         Acts like a setter method.
         Updates some attributes.
@@ -57,9 +57,16 @@ class TeamMember:
         :param warning: int
         :return: None
         """
-        self.__level = level
-        self.__score = score
-        self.__warning = warning
+        try:
+            if level is not int or score is not int or warning is not int:
+                raise UserWarning
+            else:
+                self.__level = level
+                self.__score = score
+                self.__warning = warning
+                return True
+        except UserWarning:
+            return False
 
 
 class Team:
@@ -79,18 +86,32 @@ class Team:
         """
         return self.__team
 
-    def add_member(self, arg: TeamMember, index: int = -1) -> None:
+    def add_member(self, arg: TeamMember, index: [int, None] = None) -> bool:
         """
         Acts like a setter method.
         Adds a TeamMember object to the list.
-        :return: None
+        :return: bool
         """
-        self.__team.insert(index, arg)
+        try:
+            if arg is not TeamMember:
+                raise UserWarning
+            elif index is None:
+                self.__team.append(arg)
+                return True
+            else:
+                self.__team.insert(index, arg)
+                return True
+        except (TypeError, UserWarning):
+            return False
 
-    def remove_member(self, arg: TeamMember) -> None:
+    def remove_member(self, arg: TeamMember) -> bool:
         """
         Acts like a setter method.
         Removes a TeamMember object from the list.
         :return: None
         """
-        self.__team.remove(arg)
+        try:
+            self.__team.remove(arg)
+            return True
+        except ValueError:
+            return False
