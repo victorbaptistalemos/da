@@ -150,7 +150,7 @@ def manage_team(arg: Team) -> None:
                             new_player_data.append(value)
                             break
                         else:
-                            print(f'Valor de {info} não compatível com o armazenado em {data} = {value}')
+                            print(f'Valor de {info} não compatível com o armazenado em {data} = {value}\n')
                             continue
             try:
                 print('Valores atuais de {}: Level: {}, Score: {}'.format(player_name, *player_data))
@@ -183,9 +183,8 @@ def quitting_member(arg: Team) -> None:
             list_member(arg)
             opt: int = int(input('Digite o índice que deseja excluir: ')) - 1
             print(f'{arg.get_team()[opt].get_name()} realmente saiu do grupo? ')
-            confirming: str = input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
-            if not confirming.isalnum() or confirming.upper() == 'S':
-                arg.remove_member(arg.get_team()[opt])
+            input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
+            arg.remove_member(arg.get_team()[opt])
         except (EOFError, IndexError, KeyboardInterrupt, ValueError):
             break
 

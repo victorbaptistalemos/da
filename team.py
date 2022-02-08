@@ -121,6 +121,11 @@ class Team:
             return False
 
     def set_member(self, index: int, level: int, score: int, warning: int) -> bool:
+        """
+        Acts like a setter method.
+        Updates a TeamMember object from the list.
+        :return: None
+        """
         try:
             if level is not int or score is not int or warning is not int:
                 raise UserWarning
