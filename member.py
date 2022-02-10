@@ -161,10 +161,13 @@ def manage_team(arg: Team) -> None:
                     new_player_data.append(player_data[2] + 1)
                 else:
                     new_player_data.append(0)
-                arg.set_member(_, *new_player_data)
-                sys_clear()
-                break
-            except (EOFError, KeyboardInterrupt):
+                if arg.set_member(_, *new_player_data):
+                    sys_clear()
+                    break
+                else:
+                    input(f'Não foi possível atualizar os valores de {player_name}.')
+                    raise UserWarning
+            except (EOFError, KeyboardInterrupt, UserWarning):
                 sys_clear()
                 continue
 

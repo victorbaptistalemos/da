@@ -58,7 +58,7 @@ class TeamMember:
         :return: None
         """
         try:
-            if level is not int or score is not int or warning is not int:
+            if not all((str(level).isdigit(), str(score).isdigit(), str(warning).isdigit())):
                 raise UserWarning
             else:
                 self.__level = level
@@ -126,11 +126,4 @@ class Team:
         Updates a TeamMember object from the list.
         :return: None
         """
-        try:
-            if level is not int or score is not int or warning is not int:
-                raise UserWarning
-            else:
-                self.__team[index].update_values(level, score, warning)
-                return True
-        except (IndexError, UserWarning):
-            return False
+        return self.__team[index].update_values(level, score, warning)
