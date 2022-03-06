@@ -18,6 +18,55 @@ class Team:
         self.__team: list[Member]
         self.__load_team()
 
+    def __adding_member(self) -> None:
+        """
+        Tries to add a Member into __team attribute.
+        :return: None
+        """
+        while True:
+            try:
+                self.__list_member()
+                print()
+                opt: int = len(self.__team) + 1
+                name: str = input('Informe o nome do(a) novo(a) participante: ')
+                level: int = int(input('Informe o respectivo level: '))
+                score: int = int(input('Informe o respectivo score: '))
+                index: int = int(input('Informe em que posição deseja adicionar\n'
+                                       f'"{opt}" para inserir no final da lista: '))
+                if index == 1:
+                    print(
+                        f'Você está tentando adicionar: {name} antes de '
+                        f'{self.__team[index -1].get_name()}.'
+                    )
+                elif index == opt:
+                    print(
+                        f'Você está tentando adicionar: {name} depois de '
+                        f'{self.__team[index - 2].get_name()}.'
+                    )
+                else:
+                    print(
+                        f'Você está tentando adicionar: {name} entre '
+                        f'{self.__team[index - 2].get_name()} e '
+                        f'{self.__team[index - 1].get_name()}'
+                    )
+                index -= 1
+                input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
+                if self.__add_member(Member(name, level, score, 0), index):
+                    break
+                else:
+                    raise UserWarning
+            except (EOFError, KeyboardInterrupt, ValueError):
+                try:
+                    sys_clear()
+                    input(
+                        'Ocorreu um erro ao processar os dados.\n'
+                        'Pressione Enter para tentar novamente ou '
+                        'Pressione Ctrl + C (^C) para atualizar os membros do grupo.'
+                    )
+                    sys_clear()
+                except (EOFError, KeyboardInterrupt):
+                    break
+
     def __entering_member(self) -> None:
         """
         Tries to add a Member object into __team attribute.
@@ -195,53 +244,7 @@ class Team:
         return self.__team[index].update_values(level, score, warning)
 
 
-    def adding_member(arg: Team) -> None:
-        """
-        Tries tp add a TeamMember on Team
-        :param arg: Team
-        :return: None
-        """
-        while True:
-            try:
-                list_member(arg)
-                opt: list[TeamMember] = arg.get_team()
-                print()
-                name: str = input('Informe o nome do(a) novo(a) participante: ')
-                level: int = int(input('Informe o respectivo level: '))
-                score: int = int(input('Informe o respectivo score: '))
-                index: int = int(input('Informe em que posição deseja adicionar\n'
-                                       f'"{len(opt) + 1}" para inserir no final da lista: '))
-                if index == 1:
-                    print(
-                        f'Você está tentando adicionar: {name} antes de '
-                        f'{opt[index -1].get_name()}.'
-                    )
-                elif index == len(opt) + 1:
-                    print(
-                        f'Você está tentando adicionar: {name} depois de '
-                        f'{opt[index - 2].get_name()}.'
-                    )
-                else:
-                    print(
-                        f'Você está tentando adicionar: {name} entre '
-                        f'{opt[index - 2].get_name()} e '
-                        f'{opt[index - 1].get_name()}'
-                    )
-                index -= 1
-                input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
-                arg.add_member(TeamMember(name, level, score, 0), index)
-                break
-            except (EOFError, KeyboardInterrupt, ValueError):
-                try:
-                    sys_clear()
-                    input(
-                        'Ocorreu um erro ao processar os dados\n'
-                        'Pressione Enter para tentar novamente ou\n'
-                        'Pressione Ctrl + C (^C) para atualizar os membros do grupo.'
-                    )
-                    sys_clear()
-                except (EOFError, KeyboardInterrupt):
-                    break
+
 
 
 
