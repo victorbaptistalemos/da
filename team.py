@@ -18,6 +18,27 @@ class Team:
         self.__team: list[Member]
         self.__load_team()
 
+    def __entering_member(self) -> None:
+        """
+        Tries to add a Member object into __team attribute.
+        :return: none
+        """
+        while True:
+            try:
+                if len(opt := self.__team) < 30:
+                    sys_clear()
+                    print(f'Time incompleto.\nO time tem {len(opt)}/30 participantes.')
+                    print('Pressione Ctrl + C (^C) para continuar o script')
+                    action: str = input('Deseja adicionar novo(a) participante [s/N]? ')
+                    if action.upper() == 'S':
+                        self.__adding_member()
+                    else:
+                        break
+                else:
+                    break
+            except (EOFError, KeyboardInterrupt):
+                break
+
     def __load_team(self) -> None:
         """
         Grabs the info from a JSON file and turns it into a Team object.
@@ -43,7 +64,7 @@ class Team:
             sys_clear()
             self.__quitting_member()  # Tries to remove a Member object.
             sys_clear()
-            self.entering_member()  # Tries to add a Member object.
+            self.__entering_member()  # Tries to add a Member object.
             sys_clear()
             for m, member in enumerate(self.__team):
                 while True:  # Will break after updating a Member object
@@ -223,30 +244,6 @@ class Team:
                     break
 
 
-    def entering_member(arg: Team) -> None:
-        """
-        Verifies if the Team has 30 TeamMember on its attribute.
-        :param arg: Team
-        :return: none
-        """
-        while True:
-            try:
-                if len(opt := arg.get_team()) < 30:
-                    sys_clear()
-                    print(f'Time incompleto.\nO time tem {len(opt)}/30 participantes.')
-                    print('Pressione Ctrl + C (^C) para continuar o script')
-                    _: str = input('Deseja adicionar novo(a) participante [s/N]? ')
-                    if not _.isalnum() or _.upper() == 'S':
-                        if adding_member(arg):
-                            raise UserWarning
-                        else:
-                            print('Ocorreu algum erro, tente novamente!')
-                    else:
-                        raise UserWarning
-                else:
-                    raise UserWarning
-            except (EOFError, KeyboardInterrupt, UserWarning):
-                break
 
 
     def list_member(arg: Team) -> None:
