@@ -25,8 +25,6 @@ class Member:
         self.__level: int = level
         self.__score: int = score
         self.__warning: int = warning
-        self.__is_warned: bool = self.__warned()
-        self.__diff_score: int = 0
 
     def get_name(self) -> str:
         """
@@ -56,7 +54,7 @@ class Member:
         """
         return self.__warning
 
-    def update_values(self, level: int, score: int, warning: int) -> bool:
+    def update_values(self, level: int, score: int, warning: int) -> None:
         """
         Acts like a setter method.
         Updates some attributes.
@@ -65,30 +63,9 @@ class Member:
         :param warning: int
         :return: None
         """
-        check = lambda x: str(x).isdigit()
-        if not all((check(level), check(score), check(warning))):
-            return False
-        else:
-            self.__level = level
-            self.__score = score
-            self.__warning = warning
-            return True
-
-    @property
-    def warnings(self) -> bool:
-        """
-        Acts like a getter method
-        :return: bool
-        """
-        return self.__is_warned
-
-    @property
-    def difference(self) -> int:
-        """
-        Acts like a getter method
-        :return: int
-        """
-        return self.__diff_score
+        self.__level = level
+        self.__score = score
+        self.__warning = warning
 
     def __warned(self) -> bool:
         """
