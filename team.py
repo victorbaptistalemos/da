@@ -11,17 +11,14 @@ class Team:
     """
     All Member objects must be inside here.
     """
-    def __init__(self, team: [dict] = None):
+    def __init__(self):
         """
         Creates an empty list waiting for each TeamMember object to be inserted.
         """
         self.__team: list[Member]
-        if team is None:
-            self.__team = []
-        else:
-            self.__load_team(team)
+        self.__load_team()
 
-    def __load_team(self, arg: dict) -> None:
+    def __load_team(self) -> None:
         """
         Grabs the info from a JSON file and turns it into a Team object.
         :return: Team
