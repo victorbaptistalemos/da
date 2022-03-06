@@ -4,11 +4,11 @@ Main module.
 """
 
 from bg_op import manage_backup
-from member import load_team
-from member import manage_team
-from member import remove_member
-from member import write_team
-from team import Team
+from team import load_team
+from team import manage_team
+from team import remove_member
+from team import write_team
+from member import Team
 
 
 backup: None = None
