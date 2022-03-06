@@ -102,6 +102,16 @@ class Team:
             except (EOFError, KeyboardInterrupt):
                 break
 
+    def __list_member(self) -> None:
+        """
+        Prints the current Member status of __team attribute.
+        :return: none
+        """
+        sys_clear()
+        print('Esta é a lista de participantes:')
+        for m, member in enumerate(self.__team, start=1):
+            print(f'{m}: {member.get_name()}')
+
     def __load_team(self) -> None:
         """
         Grabs the info from a JSON file and turns it into a Team object.
@@ -240,31 +250,6 @@ class Team:
         :return: None
         """
         return self.__team[index].update_values(level, score, warning)
-
-
-
-
-
-
-
-    def list_member(arg: Team) -> None:
-        """
-        Prints the current TeamMember name list
-        :param arg: Team
-        :return: none
-        """
-        sys_clear()
-        print('Esta é a lista de participantes:')
-        for _, member in enumerate(arg.get_team(), start=1):
-            print(f'{_}: {member.get_name()}')
-
-
-
-
-
-
-
-
 
 
     def remove_member(arg: Team) -> None:
