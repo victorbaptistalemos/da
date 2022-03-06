@@ -181,9 +181,9 @@ def quitting_member(arg: Team) -> None:
     while True:
         try:
             sys_clear()
-            print('Há alguém do grupo que saiu? ')
-            input('Pressione Enter para confirmar ou Ctrl + c (^C) para continuar o script. ')
             list_member(arg)
+            print('\nHá alguém do grupo que saiu?')
+            input('Pressione Enter para confirmar ou Ctrl + c (^C) para continuar o script. ')
             opt: int = int(input('Digite o índice que deseja excluir: ')) - 1
             print(f'{arg.get_team()[opt].get_name()} realmente saiu do grupo? ')
             input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
@@ -201,6 +201,7 @@ def remove_member(arg: Team) -> None:
     members_name: list = [member.get_name() for member in arg.get_team()]
     warned_member: list = [member.get_name() for member in arg.get_team() if member.get_warning() >= 10]
     for member in warned_member:
+        sys_clear()
         removing = input(f'Deletar {member} do grupo? ')
         if not removing.isalnum() or removing.upper() == 'S':
             index: int = members_name.index(member)
@@ -229,3 +230,4 @@ def write_team(arg: Team) -> None:
     arg: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in arg}
     with open(f'{current_path()}diggy.json', 'w') as diggy:
         dump(arg, diggy, indent=True, ensure_ascii=False)
+    sys_clear()
