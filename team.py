@@ -183,12 +183,9 @@ class Team:
                             '\tScore: {}\n'.format(member_name, *new_data))
                         print('Pressione Enter para confirmar ou Ctrl + C (^C) para alterar.')
                         input()  # May raise an EOFError or a KeyboardInterrupt except
-                        if self.set_member(m, * new_data):
-                            sys_clear()
-                            break
-                        else:
-                            input(f'Não foi possível atualizar os valores de {member_name}.')
-                            raise UserWarning
+                        self.__set_member(m, * new_data)
+                        sys_clear()
+                        break
                     except (EOFError, KeyboardInterrupt):
                         sys_clear()
                         continue
