@@ -15,7 +15,7 @@ class Team:
         """
         Creates an empty list waiting for each TeamMember object to be inserted.
         """
-        self.__team: list[Member]
+        self.__team: list[Member] = []
         self.__load_team()
 
     def __add_member(self, arg: Member, index: int) -> bool:
@@ -126,7 +126,7 @@ class Team:
         except FileNotFoundError:
             pass  # There's nothing to do. Will create a Team from scratch.
         finally:
-            self.team: list[Member] = [Member(key, *value) for key, value in self.__team.items()]
+            self.__team: list[Member] = [Member(key, *value) for key, value in self.__team.items()]
 
     def manage_team(self) -> None:
         """
