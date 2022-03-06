@@ -34,6 +34,72 @@ class Team:
         finally:
             self.team: list[Member] = [Member(key, *value) for key, value in self.__team.items()]
 
+    def manage_team(self) -> None:
+        """
+        Iterates on each Member object on __team attribute and update its values.
+        :return: None
+        """
+        try:
+            sys_clear()
+            self.quitting_member()  # Tries to remove a Member object.
+            sys_clear()
+            self.entering_member()  # Tries to add a Member object.
+            sys_clear()
+            for m, member in enumerate(self.__team):
+                while True:  # Will break after updating a Member object
+                    member_name: str = member.get_name()
+                    member_data: list[int] = [member.get_level(), member.get_score(), member.get_warning()]
+                    new_data: list = []
+                    opt = ('level', 'score')
+                    for k, v in zip(opt, member_data):
+                        info: None = None
+                        while True:  # Will break after getting some info.
+                            try:
+                                print(f'Usuário: {member_name}, '
+                                      f'Level: {member_data[0]}, '
+                                      f'Score: {member_data[1]}, '
+                                      f'Warnings: {member_data[2]}')
+                                info: int = int(input(f'Digite o {k} atual de {member_name}: '))
+                                if info < v or info >= v + 500:
+                                    raise ValueError
+                                else:
+                                    new_data.append(info)
+                                    sys_clear()
+                                    break
+                            except ValueError:
+                                sys_clear()
+                                if info is None:
+                                    new_data.append(v)
+                                    break
+                                else:
+                                    print(f'Valor de {info} não compatível com o armazenado em {k} = {v}\n')
+                                    continue
+                    try:
+                        if new_data == member_data[:2]:
+                            new_data.append(member_data[2] + 1)
+                        else:
+                            new_data.append(0)
+                        print(
+                            'Valores atuais de {}:\n'
+                            '\tLevel: {}\n'
+                            '\tScore: {}\n'.format(member_name, *member_data))
+                        print(
+                            'Novos valores de {}:\n'
+                            '\tLevel: {}\n'
+                            '\tScore: {}\n'.format(member_name, *new_data))
+                        print('Pressione Enter para confirmar ou Ctrl + C (^C) para alterar.')
+                        input()  # May raise an EOFError or a KeyboardInterrupt except
+                        if self.set_member(m, * new_data):
+                            sys_clear()
+                            break
+                        else:
+                            input(f'Não foi possível atualizar os valores de {member_name}.')
+                            raise UserWarning
+                    except (EOFError, KeyboardInterrupt):
+                        sys_clear()
+                        continue
+        except (EOFError, KeyboardInterrupt):
+            raise UserWarning
 
 
 
@@ -182,63 +248,6 @@ class Team:
 
 
 
-    def manage_team(arg: Team) -> None:
-        """
-        Iterates on each TeamMember object and update its values.
-        :param arg: Team
-        :return: None
-        """
-        sys_clear()
-        quitting_member(arg)  # If someone leaves the team, here's the function to remove him.
-        sys_clear()
-        entering_member(arg)  # If the team is not full it'll attempt to add someone.
-        sys_clear()
-        for _, member in enumerate(arg.get_team()):
-            while True:
-                player_name: str = member.get_name()
-                player_data: list[int] = [member.get_level(), member.get_score(), member.get_warning()]
-                new_player_data: list = []
-                for data, value in zip(('level', 'score'), player_data):  # will cut the last element of player_data
-                    info: None = None
-                    while True:
-                        try:
-                            print(f'Usuário: {player_name}, '
-                                  f'Level: {player_data[0]}, '
-                                  f'Score: {player_data[1]}, '
-                                  f'Warnings: {player_data[2]}')
-                            info: int = int(input(f'Digite o {data} atual de {player_name}: '))
-                            if info < value or info >= value + 500:
-                                raise ValueError
-                            else:
-                                new_player_data.append(info)
-                                sys_clear()
-                                break
-                        except ValueError:
-                            sys_clear()
-                            if info is None:
-                                new_player_data.append(value)
-                                break
-                            else:
-                                print(f'Valor de {info} não compatível com o armazenado em {data} = {value}\n')
-                                continue
-                try:
-                    print('Valores atuais de {}: Level: {}, Score: {}'.format(player_name, *player_data))
-                    print('Novos valores de {}: Level: {}, Score: {}'.format(player_name, *new_player_data))
-                    print('\nPressione Enter para confirmar ou Ctrl + C (^C) para alterar.')
-                    input()
-                    if new_player_data == player_data[:2]:
-                        new_player_data.append(player_data[2] + 1)
-                    else:
-                        new_player_data.append(0)
-                    if arg.set_member(_, *new_player_data):
-                        sys_clear()
-                        break
-                    else:
-                        input(f'Não foi possível atualizar os valores de {player_name}.')
-                        raise UserWarning
-                except (EOFError, KeyboardInterrupt, UserWarning):
-                    sys_clear()
-                    continue
 
 
     def quitting_member(arg: Team) -> None:
