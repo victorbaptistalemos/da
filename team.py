@@ -189,6 +189,7 @@ class Team:
                     except (EOFError, KeyboardInterrupt):
                         sys_clear()
                         continue
+            self.__remove_warned_member()
         except (EOFError, KeyboardInterrupt):
             raise UserWarning
 
@@ -206,62 +207,61 @@ class Team:
                 opt: int = int(input('Digite o índice que deseja excluir: ')) - 1
                 print(f'{self.__team[opt].get_name()} realmente saiu do grupo? ')
                 input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
-                self.__remove_member(opt)
+                self.__remove_member(self.__team[opt])
             except (EOFError, IndexError, KeyboardInterrupt, ValueError):
                 break
 
-    def __remove_member(self, arg: int) -> None:
+    def __remove_member(self, arg: Member) -> None:
         """
         Acts like a setter method.
         Removes a Member object from the __team attribute.
         :return: None
         """
-        self.__team.pop(arg)
+        self.__team.remove(arg)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def set_member(self, index: int, level: int, score: int, warning: int) -> bool:
+    def __set_member(self, index: int, level: int, score: int, warning: int) -> None:
         """
         Acts like a setter method.
-        Updates a TeamMember object from the list.
+        Updates a Member object from __team attribute.
         :return: None
         """
-        return self.__team[index].update_values(level, score, warning)
+        self.__team[index].update_values(level, score, warning)
 
-
-    def remove_warned_member(arg: Team) -> None:
+    def __remove_warned_member(self) -> None:
         """
-        TeamMember which matches a specific condition will be removed from Team.
-        :param arg: Team
+        Tries to remove some Member from __team attribute which matches a specific condition.
         :return: None
         """
-        members_name: list = [member.get_name() for member in arg.get_team()]
-        warned_member: list = [member.get_name() for member in arg.get_team() if member.get_warning() >= 10]
-        for member in warned_member:
+        members_name: list = [m.get_name() for m in self.__team]
+        warned_member: list = [m.get_name() for m in self.__team if m.get_warning() >= 10]
+        for wm in warned_member:
             sys_clear()
-            removing = input(f'Deletar {member} do grupo? ')
-            if not removing.isalnum() or removing.upper() == 'S':
-                index: int = members_name.index(member)
+            removing = input(f'Deletar {wm} do grupo? ')
+            if removing.upper() == 'S':
+                index: int = members_name.index(wm)
                 members_name.pop(index)
-                arg.remove_member(arg.get_team()[index])
+                self.__remove_member(self.__team[index])
             else:
                 continue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def write_team(arg: Team) -> None:
