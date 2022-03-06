@@ -4,16 +4,12 @@ Main module.
 """
 
 from bg_op import manage_backup
-from team import load_team
-from team import manage_team
-from team import remove_member
-from team import write_team
-from member import Team
+from team import Team
 
 
 backup: None = None
 try:
-    team: Team = load_team()
+    team: Team = Team()
     backup: str = manage_backup()  # Creates a backup
     manage_team(team)
     remove_member(team)
