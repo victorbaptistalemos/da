@@ -244,43 +244,21 @@ class Team:
             else:
                 continue
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def write_team(arg: Team) -> None:
+    def write_team(self) -> None:
         """
-        Writes the updated Team into a JSON file.
-        :param arg: Team
+        Writes the __team attribute into a JSON file.
         :return: None
         """
         from json import dump
-        arg: list[TeamMember] = arg.get_team()
-        arg: list[list] = [
+        self.__team: list[list] = [
             [
                 member.get_name(),
                 member.get_level(),
                 member.get_score(),
                 member.get_warning()
-             ] for member in arg
+             ] for member in self.__team
         ]
-        arg: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in arg}
+        self.__team: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in self.__team}
         with open(f'{current_path()}diggy.json', 'w') as diggy:
-            dump(arg, diggy, indent=True, ensure_ascii=False)
+            dump(self.__team, diggy, indent=True, ensure_ascii=False)
         sys_clear()
