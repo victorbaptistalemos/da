@@ -18,6 +18,20 @@ class Team:
         self.__team: list[Member]
         self.__load_team()
 
+    def __add_member(self, arg: Member, index: int) -> bool:
+        """
+        Acts like a setter method.
+        Adds a TeamMember object to the list.
+        :param arg: Member
+        :param index: int
+        :return: bool
+        """
+        if arg.__class__ is not Member:
+            return False
+        else:
+            self.__team.insert(index, arg)
+            return True
+
     def __adding_member(self) -> None:
         """
         Tries to add a Member into __team attribute.
@@ -205,23 +219,7 @@ class Team:
 
 
 
-    def add_member(self, arg: Member, index: [int, None] = None) -> bool:
-        """
-        Acts like a setter method.
-        Adds a TeamMember object to the list.
-        :return: bool
-        """
-        try:
-            if arg.__class__ is not Member:
-                raise UserWarning
-            elif index is None:
-                self.__team.append(arg)
-                return True
-            else:
-                self.__team.insert(index, arg)
-                return True
-        except (TypeError, UserWarning):
-            return False
+
 
     def remove_member(self, arg: Member) -> bool:
         """
