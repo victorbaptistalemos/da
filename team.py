@@ -41,7 +41,7 @@ class Team:
         """
         try:
             sys_clear()
-            self.quitting_member()  # Tries to remove a Member object.
+            self.__quitting_member()  # Tries to remove a Member object.
             sys_clear()
             self.entering_member()  # Tries to add a Member object.
             sys_clear()
@@ -101,7 +101,23 @@ class Team:
         except (EOFError, KeyboardInterrupt):
             raise UserWarning
 
-
+    def __quitting_member(self) -> None:
+        """
+        Tries to remove a Member object from __team attribute.
+        :return: None
+        """
+        while True:
+            try:
+                sys_clear()
+                self.__list_member()
+                print('\nHá alguém do grupo que saiu?')
+                input('Pressione Enter para confirmar ou Ctrl + c (^C) para continuar o script. ')
+                opt: int = int(input('Digite o índice que deseja excluir: ')) - 1
+                print(f'{self.__team[opt].get_name()} realmente saiu do grupo? ')
+                input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
+                self.__remove_member(opt)
+            except (EOFError, IndexError, KeyboardInterrupt, ValueError):
+                break
 
 
 
@@ -250,24 +266,7 @@ class Team:
 
 
 
-    def quitting_member(arg: Team) -> None:
-        """
-        Removes a TeamMember from Team.
-        :param arg: Team
-        :return: None
-        """
-        while True:
-            try:
-                sys_clear()
-                list_member(arg)
-                print('\nHá alguém do grupo que saiu?')
-                input('Pressione Enter para confirmar ou Ctrl + c (^C) para continuar o script. ')
-                opt: int = int(input('Digite o índice que deseja excluir: ')) - 1
-                print(f'{arg.get_team()[opt].get_name()} realmente saiu do grupo? ')
-                input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
-                arg.remove_member(arg.get_team()[opt])
-            except (EOFError, IndexError, KeyboardInterrupt, ValueError):
-                break
+
 
 
     def remove_member(arg: Team) -> None:
