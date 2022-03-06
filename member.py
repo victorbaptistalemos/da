@@ -3,11 +3,17 @@ Module to manage the team members.
 """
 
 
-class TeamMember:
+class Member:
     """
     Every member of team should be instantiated here.
     """
-    def __init__(self, name: str, level: int, score: int, warning: int) -> None:
+    def __init__(
+            self,
+            name: str,
+            level: int,
+            score: int,
+            warning: int
+    ) -> None:
         """
         When a team member data turns into an object.
         :param name: str
@@ -15,10 +21,12 @@ class TeamMember:
         :param score: int
         :param warning: int
         """
-        self.__name = name
-        self.__level = level
-        self.__score = score
-        self.__warning = warning
+        self.__name: str = name
+        self.__level: int = level
+        self.__score: int = score
+        self.__warning: int = warning
+        self.__is_warned: bool = self.__warned()
+        self.__diff_score: int = 0
 
     def get_name(self) -> str:
         """
@@ -57,73 +65,34 @@ class TeamMember:
         :param warning: int
         :return: None
         """
-        try:
-            if not all((str(level).isdigit(), str(score).isdigit(), str(warning).isdigit())):
-                raise UserWarning
-            else:
-                self.__level = level
-                self.__score = score
-                self.__warning = warning
-                return True
-        except UserWarning:
+        check = lambda x: str(x).isdigit()
+        if not all((check(level), check(score), check(warning))):
             return False
-
-
-class Team:
-    """
-    All team members should be inside here.
-    """
-    def __init__(self, team: [list[TeamMember], None] = None):
-        """
-        Creates an empty list waiting for each TeamMember object to be inserted.
-        """
-        self.__team: list[TeamMember]
-        if list is None:
-            self.__team = []
         else:
-            self.__team = team
+            self.__level = level
+            self.__score = score
+            self.__warning = warning
+            return True
 
-    def get_team(self) -> list[TeamMember]:
+    @property
+    def warnings(self) -> bool:
         """
-        This is a getter method!
-        :return: list
-        """
-        return self.__team
-
-    def add_member(self, arg: TeamMember, index: [int, None] = None) -> bool:
-        """
-        Acts like a setter method.
-        Adds a TeamMember object to the list.
+        Acts like a getter method
         :return: bool
         """
-        try:
-            if arg.__class__ is not TeamMember:
-                raise UserWarning
-            elif index is None:
-                self.__team.append(arg)
-                return True
-            else:
-                self.__team.insert(index, arg)
-                return True
-        except (TypeError, UserWarning):
-            return False
+        return self.__is_warned
 
-    def remove_member(self, arg: TeamMember) -> bool:
+    @property
+    def difference(self) -> int:
         """
-        Acts like a setter method.
-        Removes a TeamMember object from the list.
-        :return: None
+        Acts like a getter method
+        :return: int
         """
-        try:
-            self.__team.remove(arg)
-            return True
-        except ValueError:
-            return False
+        return self.__diff_score
 
-    def set_member(self, index: int, level: int, score: int, warning: int) -> bool:
+    def __warned(self) -> bool:
         """
-        Acts like a setter method.
-        Updates a TeamMember object from the list.
-        :return: None
+        Inner method. Checks if the Member object is warned.
+        :return: bool
         """
-        return self.__team[index].update_values(level, score, warning)
+        return self.__warning != 0
