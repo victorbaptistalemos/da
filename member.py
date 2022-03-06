@@ -66,10 +66,3 @@ class Member:
         self.__level = level
         self.__score = score
         self.__warning = warning
-
-    def __warned(self) -> bool:
-        """
-        Inner method. Checks if the Member object is warned.
-        :return: bool
-        """
-        return self.__warning != 0
