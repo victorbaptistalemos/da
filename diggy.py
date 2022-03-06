@@ -11,8 +11,7 @@ backup: None = None
 try:
     team: Team = Team()
     backup: str = manage_backup()  # Creates a backup
-    manage_team(team)
-    remove_member(team)
-    write_team(team)
-except (EOFError, KeyboardInterrupt):
+    team.manage_team()
+    team.write_team()
+except UserWarning:
     manage_backup(False, backup)  # Deletes the current backup
