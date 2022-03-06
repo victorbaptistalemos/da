@@ -213,35 +213,31 @@ class Team:
             except (EOFError, IndexError, KeyboardInterrupt, ValueError):
                 break
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def remove_member(self, arg: Member) -> bool:
+    def __remove_member(self, arg: int) -> None:
         """
         Acts like a setter method.
-        Removes a TeamMember object from the list.
+        Removes a Member object from the __team attribute.
         :return: None
         """
-        try:
-            self.__team.remove(arg)
-            return True
-        except ValueError:
-            return False
+        self.__team.pop(arg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def set_member(self, index: int, level: int, score: int, warning: int) -> bool:
         """
@@ -252,7 +248,7 @@ class Team:
         return self.__team[index].update_values(level, score, warning)
 
 
-    def remove_member(arg: Team) -> None:
+    def remove_warned_member(arg: Team) -> None:
         """
         TeamMember which matches a specific condition will be removed from Team.
         :param arg: Team
