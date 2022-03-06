@@ -22,17 +22,8 @@
 6. Função ```manage_backup()``` cria ou deleta um backup.
 7. Função ```sys_clear()``` limpa a tela do terminal ou cmd.
 ## Arquivo dependente: ```member.py```
-1. Manipula as classes do módulo ```team.py```.
-2. Função ```adding_member()``` adiciona um TeamMember a Team.
-3. Função ```entering_member()``` verifica se Team contém 30 elementos em seu atributo.
-4. Função ```list_member()``` imprime o nome de cada TeamMember inserido em Team.
-5. Função ```load_team()``` lê um arquivo JSON e cria objetos dos tipos Team e TeamMember com os dados lidos.
-6. Função ```manage_team()``` itera sobre cada TeamMember em Team e atualiza os dados.
-7. Função ```quitting_member()``` verifica se há a necessidade de retirar um TeamMember de Team.
-8. Função ```remove_member()``` remove TeamMember se uma determinada condição for alcançada.
-9. Função ```write_team()``` grava os dados de Team em um arquivo JSON. 
+### class ```Member```
+1. Simula um membro de grupo.
 ## Arquivo dependente: ```team.py```
-### class ```TeamMember```
-1. Simula um membro de um grupo.
 ### class ```Team```
 1. Simula um grupo.
