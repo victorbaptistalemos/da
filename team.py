@@ -53,13 +53,6 @@ class Team:
 
 
 
-    def get_team(self) -> list[Member]:
-        """
-        This is a getter method!
-        :return: list
-        """
-        return self.__team
-
     def add_member(self, arg: Member, index: [int, None] = None) -> bool:
         """
         Acts like a setter method.
