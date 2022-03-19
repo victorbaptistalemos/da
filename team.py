@@ -200,13 +200,16 @@ class Team:
         """
         self.__team.remove(arg)
 
-    def __set_member(self, index: int, level: int, score: int, warning: int) -> None:
+    def __set_member(self, index: int, level: int, score: int) -> None:
         """
         Acts like a setter method.
         Updates a Member object from __team attribute.
+        :param index: int,
+        :param level: int,
+        :param score: int,
         :return: None
         """
-        self.__team[index].update_values(level, score, warning)
+        self.__team[index].update_values(level, score)
 
     def __remove_warned_member(self) -> None:
         """
