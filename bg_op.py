@@ -68,7 +68,7 @@ def current_path() -> str:
     arg: str = __file__
     arg: str = dirname(arg)
     arg: str = abspath(arg)
-    arg += '\\' if is_win() else '/'
+    arg += command('path')
     return arg
 
 
