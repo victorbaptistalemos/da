@@ -57,15 +57,18 @@ class Member:
         """
         return self.__warning
 
-    def update_values(self, level: int, score: int, warning: int) -> None:
+    def update_values(self, level: int, score: int) -> None:
         """
         Acts like a setter method.
         Updates some attributes.
-        :param level: int
+        :param level: int,
         :param score: int
-        :param warning: int
         :return: None
         """
+        warning: tuple = (level == self.__level, score == self.__score)
+        warning: bool = all(warning)
+        warning: bool = warning and not self.__is_new
         self.__level = level
         self.__score = score
-        self.__warning = warning
+        if warning:
+            self.__warning += 1
