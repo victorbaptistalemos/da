@@ -74,17 +74,13 @@ class Team:
         Tries to add a Member object into __team attribute.
         :return: none
         """
-        while True:
+        while len(opt := self.__team) < 30:
             try:
-                if len(opt := self.__team) < 30:
-                    sys_clear()
-                    print(f'Time incompleto.\nO time tem {len(opt)}/30 participantes.')
-                    print('Pressione Ctrl + C (^C) para continuar o script')
-                    action: str = input('Deseja adicionar novo(a) participante [s/N]? ')
-                    if action.upper() == 'S':
-                        self.__adding_member()
-                    else:
-                        break
+                sys_clear()
+                print(f'The team is incomplete!\nIt has {opt} of 30 members.')
+                action: str = input('Press Ctrl + C (^C) to skip.\nDo you want to add a member? [Y/n]: ')
+                if action.upper() == 'Y':
+                    self.__adding_member()
                 else:
                     break
             except (EOFError, KeyboardInterrupt):
