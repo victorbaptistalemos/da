@@ -97,5 +97,5 @@ def sys_clear() -> None:
     Clears the terminal.
     :return: None
     """
-    arg: str = 'cls' if is_win() else 'clear'
-    console(arg)
+    cmd = command('clear')
+    console(cmd)
