@@ -51,7 +51,10 @@ def current_date() -> str:
     arg: datetime = datetime.now()
     arg: str = str(arg)
     arg: list = arg.split(' ')
-    arg: str = arg[0]
+    arg.extend(arg.pop(0).split('-'))
+    arg.extend(arg.pop(0).split(':'))
+    arg[-1] = str(int(float(arg[-1])))
+    arg: str = '_'.join(arg)
     return arg
 
 
