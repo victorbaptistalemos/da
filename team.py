@@ -243,6 +243,7 @@ class Team:
              ] for member in self.__team
         ]
         self.__team: dict[list] = {member[0]: [int(_) for _ in member[1:]] for member in self.__team}
-        with open(f'{current_path()}diggy.json', 'w') as diggy:
-            dump(self.__team, diggy, indent=True, ensure_ascii=False)
+        path = current_path() + 'diggy.json'
+        with open(path, 'w') as p:
+            dump(self.__team, p, indent=True, ensure_ascii=False)
         sys_clear()
