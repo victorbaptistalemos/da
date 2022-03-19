@@ -12,7 +12,8 @@ class Member:
             name: str,
             level: int,
             score: int,
-            warning: int
+            warning: int,
+            is_new: bool = False
     ) -> None:
         """
         When a team member data turns into an object.
@@ -25,6 +26,7 @@ class Member:
         self.__level: int = level
         self.__score: int = score
         self.__warning: int = warning
+        self.__is_new: bool = is_new
 
     def get_name(self) -> str:
         """
