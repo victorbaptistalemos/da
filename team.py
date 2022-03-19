@@ -195,6 +195,7 @@ class Team:
         """
         Acts like a setter method.
         Removes a Member object from the __team attribute.
+        :param arg: Member
         :return: None
         """
         self.__team.remove(arg)
