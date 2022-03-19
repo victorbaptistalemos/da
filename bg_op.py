@@ -18,14 +18,16 @@ def command(arg: str) -> str:
     return cmd[arg][is_win()]
 
 
-def console(arg) -> None:
+def console(arg1: str, arg2: str = '', arg3: str = '') -> None:
     """
     Receives a command to be executed from terminal.
-    :param arg: str
+    :param arg1: str
+    :param arg2: str
+    :param arg3: str
     :return: None
     """
     from os import system
-    system(arg)
+    system(f'{arg1} {arg2} {arg3}')
 
 
 def current_date() -> str:
