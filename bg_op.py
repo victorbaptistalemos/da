@@ -69,6 +69,17 @@ def current_path() -> str:
     return arg
 
 
+def delete_backup(arg: str) -> None:
+    """
+    Deletes a backup file.
+    :param arg: str
+    :return: None
+    """
+    cmd: str = command('rm')
+    console(cmd, arg)
+    sys_clear()
+
+
 def is_win() -> bool:
     """
     Is this script running on a Windows OS?
