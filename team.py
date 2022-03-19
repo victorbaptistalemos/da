@@ -105,8 +105,9 @@ class Team:
         self.__team: dict = {}
         sys_clear()
         try:
-            with open(f'{current_path()}diggy.json', 'r') as diggy:
-                self.__team: dict = load(diggy)
+            path: str = current_path() + 'diggy.json'
+            with open(path, 'r') as p:
+                self.__team: dict = load(p)
         except FileNotFoundError:
             pass  # There's nothing to do. Will create a Team from scratch.
         finally:
