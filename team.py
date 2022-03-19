@@ -181,12 +181,13 @@ class Team:
             try:
                 sys_clear()
                 self.__list_member()
-                print('\nHá alguém do grupo que saiu?')
-                input('Pressione Enter para confirmar ou Ctrl + c (^C) para continuar o script. ')
-                opt: int = int(input('Digite o índice que deseja excluir: ')) - 1
-                print(f'{self.__team[opt].get_name()} realmente saiu do grupo? ')
-                input('Pressione Enter para confirmar ou Ctrl + C (^C) para cancelar.')
-                self.__remove_member(self.__team[opt])
+                print('\nIs there someone that has quit the team?')
+                input('Press Enter to delete someone or Ctrl + c (^C) to skip.')
+                index: int = int(input('What\'s the index that has quit: ')) - 1
+                sys_clear()
+                print(f'{self.__team[index].get_name()} has quit?')
+                input('Press Enter to delete member or Ctrl + C (^C) to skip.')
+                self.__remove_member(self.__team[index])
             except (EOFError, IndexError, KeyboardInterrupt, ValueError):
                 break
 
