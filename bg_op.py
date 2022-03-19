@@ -49,25 +49,6 @@ def is_win() -> bool:
     return name == 'nt'
 
 
-def manage_backup(create_bkp: bool = True, bkp_name: str = current_date()) -> [str, None]:
-    """
-    Creates or deletes a backup file.
-    :param create_bkp: bool
-    :param bkp_name: str
-    :return:
-    """
-    if create_bkp:
-        arg: str = current_path()
-        bkp_name: str = arg + f'diggy_{bkp_name}.json'
-        command: str = 'copy' if is_win() else 'cp'
-        console(f'{command} {arg}diggy.json {bkp_name}')
-        return bkp_name
-    else:
-        command: str = 'remove' if is_win() else 'rm'
-        console(f'{command} {bkp_name}')
-        sys_clear()
-
-
 def sys_clear() -> None:
     """
     Clears the terminal.
