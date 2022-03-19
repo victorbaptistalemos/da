@@ -22,7 +22,7 @@ class Team:
         """
         Acts like a setter method.
         Adds a TeamMember object to the list.
-        :param arg: Member
+        :param arg: Member,
         :param index: int
         :return: bool
         """
