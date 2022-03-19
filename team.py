@@ -42,41 +42,29 @@ class Team:
                 self.__list_member()
                 print()
                 opt: int = len(self.__team) + 1
-                name: str = input('Informe o nome do(a) novo(a) participante: ')
-                level: int = int(input('Informe o respectivo level: '))
-                score: int = int(input('Informe o respectivo score: '))
-                index: int = int(input('Informe em que posição deseja adicionar\n'
-                                       f'"{opt}" para inserir no final da lista: '))
+                name: str = input('Name: ')
+                level: int = int(input('Level: '))
+                score: int = int(input('Score: '))
+                index: int = int(input('Insert index number.\n'
+                                       f'"{opt}" for end of list: '))
                 if index == 1:
-                    print(
-                        f'Você está tentando adicionar: {name} antes de '
-                        f'{self.__team[index -1].get_name()}.'
-                    )
+                    print(f'You\'re trying to add {name} before {self.__team[index - 1].get_name()}.')
                 elif index == opt:
-                    print(
-                        f'Você está tentando adicionar: {name} depois de '
-                        f'{self.__team[index - 2].get_name()}.'
-                    )
+                    print(f'You\'re trying to add {name} after {self.__team[index - 2].get_name()}.')
                 else:
-                    print(
-                        f'Você está tentando adicionar: {name} entre '
-                        f'{self.__team[index - 2].get_name()} e '
-                        f'{self.__team[index - 1].get_name()}'
-                    )
+                    after: str = self.__team[index - 2].get_name()
+                    before: str = self.__team[index - 1].get_name()
+                    print(f'You\'re trying to add {name} between {after} and {before}.')
                 index -= 1
-                input(f'Pressione Enter para confirmar ou Ctrl + C (^C) para voltar.')
-                if self.__add_member(Member(name, level, score, 0), index):
+                input(f'Confirm pressing Enter or Cancel pressing Ctrl + C (^C).')
+                if self.__add_member(Member(name, level, score, 0, True), index):
                     break
                 else:
                     raise UserWarning
             except (EOFError, KeyboardInterrupt, ValueError):
                 try:
                     sys_clear()
-                    input(
-                        'Ocorreu um erro ao processar os dados.\n'
-                        'Pressione Enter para tentar novamente ou '
-                        'Pressione Ctrl + C (^C) para atualizar os membros do grupo.'
-                    )
+                    input('An error was raised.\nPress Enter to try again or Ctrl + C (^C) to skip.')
                     sys_clear()
                 except (EOFError, KeyboardInterrupt):
                     break
