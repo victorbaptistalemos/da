@@ -200,6 +200,23 @@ class Team:
         """
         self.__team.remove(arg)
 
+    def __remove_warned_member(self) -> None:
+        """
+        Tries to remove some Member from __team attribute which matches a specific condition.
+        :return: None
+        """
+        members_name: list = [m.get_name() for m in self.__team]
+        warned_member: list = [m.get_name() for m in self.__team if m.get_warning() >= 10]
+        for wm in warned_member:
+            sys_clear()
+            removing = input(f'Do you want to delete {wm} from team? [Y/n] ')
+            if removing.upper() == 'Y':
+                index: int = members_name.index(wm)
+                members_name.pop(index)
+                self.__remove_member(self.__team[index])
+            else:
+                continue
+
     def __set_member(self, index: int, level: int, score: int) -> None:
         """
         Acts like a setter method.
@@ -210,23 +227,6 @@ class Team:
         :return: None
         """
         self.__team[index].update_values(level, score)
-
-    def __remove_warned_member(self) -> None:
-        """
-        Tries to remove some Member from __team attribute which matches a specific condition.
-        :return: None
-        """
-        members_name: list = [m.get_name() for m in self.__team]
-        warned_member: list = [m.get_name() for m in self.__team if m.get_warning() >= 10]
-        for wm in warned_member:
-            sys_clear()
-            removing = input(f'Deletar {wm} do grupo? ')
-            if removing.upper() == 'S':
-                index: int = members_name.index(wm)
-                members_name.pop(index)
-                self.__remove_member(self.__team[index])
-            else:
-                continue
 
     def write_team(self) -> None:
         """
