@@ -92,9 +92,9 @@ class Team:
         :return: none
         """
         sys_clear()
-        print('Esta é a lista de participantes:')
+        print('This is the current member list:')
         for m, member in enumerate(self.__team, start=1):
-            print(f'{m}: {member.get_name()}')
+            print(f'\t{m}: {member.get_name()}')
 
     def __load_team(self) -> None:
         """
