@@ -30,6 +30,18 @@ def console(arg1: str, arg2: str = '', arg3: str = '') -> None:
     system(f'{arg1} {arg2} {arg3}')
 
 
+def create_backup() -> str:
+    """
+    Creates a backup file.
+    :return: str
+    """
+    cur_path: str = current_path() + 'diggy.json'
+    bkp_path: str = cur_path + f'diggy_{current_date()}.json'
+    cmd: str = command('cp')
+    console(cmd, cur_path, bkp_path)
+    return bkp_path
+
+
 def current_date() -> str:
     """
     Catches the current date.
