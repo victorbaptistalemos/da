@@ -17,10 +17,11 @@ class Member:
     ) -> None:
         """
         When a team member data turns into an object.
-        :param name: str
-        :param level: int
-        :param score: int
-        :param warning: int
+        :param name: str,
+        :param level: int,
+        :param score: int,
+        :param warning: int,
+        :param is_new: bool
         """
         self.__name: str = name
         self.__level: int = level
