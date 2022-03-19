@@ -3,7 +3,22 @@ This module executes some background operations.
 """
 
 
-def console(arg: str) -> None:
+def command(arg: str) -> str:
+    """
+    Returns a command name
+    :param arg: str
+    :return: str
+    """
+    cmd: dict = {
+        'clear': {True: 'cls', False:  'clear'},
+        'cp': {True: 'copy', False:  'cp'},
+        'path': {True: '\\', False:  '/'},
+        'rm': {True: 'remove', False:  'rm'},
+    }
+    return cmd[arg][is_win()]
+
+
+def console(arg) -> None:
     """
     Receives a command to be executed from terminal.
     :param arg: str
