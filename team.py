@@ -134,41 +134,35 @@ class Team:
                         info: None = None
                         while True:  # Will break after getting some info.
                             try:
-                                print(f'Usuário: {member_name}, '
+                                print(f'Name: {member_name}, '
                                       f'Level: {member_data[0]}, '
                                       f'Score: {member_data[1]}, '
                                       f'Warnings: {member_data[2]}')
-                                info: int = int(input(f'Digite o {k} atual de {member_name}: '))
-                                if info < v or info >= v + 500:
+                                info: str = input(f'What is the current {k} of {member_name}? ')
+                                if '+' in info:
+                                    e: int = eval(f'{v}{info}')
+                                    info: int = e
+                                else:
+                                    info: int = int(info)
+                                if info < v or info >= v + 100:
                                     raise ValueError
                                 else:
                                     new_data.append(info)
                                     sys_clear()
                                     break
-                            except ValueError:
+                            except (SyntaxError, ValueError):
                                 sys_clear()
-                                if info is None:
+                                if info == '':
                                     new_data.append(v)
                                     break
                                 else:
-                                    print(f'Valor de {info} não compatível com o armazenado em {k} = {v}\n')
+                                    print(f'Cannot update value \'{info}\' into {k}\n')
                                     continue
                     try:
-                        if new_data == member_data[:2]:
-                            new_data.append(member_data[2] + 1)
-                        else:
-                            new_data.append(0)
-                        print(
-                            'Valores atuais de {}:\n'
-                            '\tLevel: {}\n'
-                            '\tScore: {}\n'.format(member_name, *member_data))
-                        print(
-                            'Novos valores de {}:\n'
-                            '\tLevel: {}\n'
-                            '\tScore: {}\n'.format(member_name, *new_data))
-                        print('Pressione Enter para confirmar ou Ctrl + C (^C) para alterar.')
-                        input()  # May raise an EOFError or a KeyboardInterrupt except
-                        self.__set_member(m, * new_data)
+                        print('Current values of {}:\n\tLevel: {}\n\tScore: {}\n'.format(member_name, *member_data))
+                        print('New values of {}:\n\tLevel: {}\n\tScore: {}\n'.format(member_name, *new_data))
+                        input('Press Enter to update values or Ctrl + C (^C) to change the new values.')
+                        self.__set_member(m, *new_data)
                         sys_clear()
                         break
                     except (EOFError, KeyboardInterrupt):
