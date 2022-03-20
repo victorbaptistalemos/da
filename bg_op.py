@@ -35,8 +35,9 @@ def create_backup() -> str:
     Creates a backup file.
     :return: str
     """
-    cur_path: str = current_path() + 'diggy.json'
+    cur_path: str = current_path()
     bkp_path: str = cur_path + f'diggy_{current_date()}.json'
+    cur_path += 'diggy.json'
     cmd: str = command('cp')
     console(cmd, cur_path, bkp_path)
     return bkp_path
@@ -50,11 +51,17 @@ def current_date() -> str:
     from datetime import datetime
     arg: datetime = datetime.now()
     arg: str = str(arg)
-    arg: list = arg.split(' ')
-    arg.extend(arg.pop(0).split('-'))
-    arg.extend(arg.pop(0).split(':'))
-    arg[-1] = str(int(float(arg[-1])))
-    arg: str = '_'.join(arg)
+    arg: list = arg.split(' ')  # [date, time]
+    arg.extend(
+        arg.pop(0).split('-')  # date -> [d, m, y]
+    )  # [date, time] -> [time, y, m, d]
+    arg.extend(
+        arg.pop(0).split(':')  # time -> [h, m, s]
+    )  # [time, y, m, d] -> [y, m, d, h, m, s]
+    arg[-1]: float = float(arg[-1])  # 'n.nnnnn' -> n.nnnnn
+    arg[-1]: int = int(arg[-1])  # n.nnnnn -> n | nn
+    arg[-1]: str = f'{arg[-1]:0=2d}'  # n | nn -> 'nn'
+    arg: str = '_'.join(arg)  # [y, m, d, h, m, s] -> 'y_m_d_h_m_s'
     return arg
 
 
