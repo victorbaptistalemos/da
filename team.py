@@ -74,7 +74,7 @@ class Team:
         Tries to add a Member object into __team attribute.
         :return: none
         """
-        while len(opt := self.__team) < 30:
+        while (opt := len(self.__team)) < 30:
             try:
                 sys_clear()
                 print(f'The team is incomplete!\nIt has {opt} of 30 members.')
