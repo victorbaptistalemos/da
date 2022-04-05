@@ -72,3 +72,5 @@ class Member:
         self.__score = score
         if warning:
             self.__warning += 1
+        else:
+            self.__warning = 0
